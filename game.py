@@ -24,6 +24,14 @@ class board:
             i += 1
         return True
 
+    def addPiece(self, piece, column):
+        if self.board[self.rows - 1][column] != '0':
+            return "Error"
+        i = self.rows - 1
+        while i >= 0 and self.board[i][column] == '0':
+            i -= 1
+        self.board[i+1][column] = piece
+
     def print(self):
         i = self.rows - 1
         while i >= 0:
