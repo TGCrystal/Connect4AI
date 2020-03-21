@@ -13,9 +13,10 @@ class board:
             self.board.append(column)
             i += 1
 
+    # Returns True if j is a column that a piece can be placed in, False otherwise w/ reason printed
     def isValidColumn(self, j):
         if not (j.isdigit() or isinstance(j, int)):
-            print("Please enter a number between 0 and ", self.columns)
+            print("Input is not an integer or convertible to an integer")
             return False
         j = int(j)
         if j < 0 or j >= self.columns:
@@ -24,9 +25,9 @@ class board:
         if board[self.rows-1][j] != '0':
             print("This column is already full")
             return False
-
         return True
 
+    # Returns True if the board is full, False otherwise, assumes pieces are added correctly
     def isFull(self):
         j = 0
         while j < self.columns:
@@ -35,6 +36,7 @@ class board:
             j += 1
         return True
 
+    # Returns true if adding a piece to specified row and column of the board results in a win, false otherwise
     def gameWon(self, piece, row, column):
         # check vertical
         space = 1
@@ -42,11 +44,7 @@ class board:
         while i >= 0 and self.board[i][column] == piece:
             space += 1
             i -= 1
-        i = row + 1
-        while i < self.rows and self.board[i][column] == piece:
-            space += 1
-            i += 1
-        if space >= 4:
+        if space == 4:
             return True
 
         # check horizontal
@@ -99,16 +97,16 @@ class board:
         return False
 
     # Call isValidColumn before attempting to place
+    # Adds piece to top of given column, column index starts at 0
     def addPiece(self, piece, column):
         i = self.rows - 1
         while i >= 0 and self.board[i][column] == '0':
             i -= 1
         i += 1
-        if i == self.rows:
-            return "Error"
         self.board[i][column] = piece
         return self.gameWon(piece, i, column)
 
+    # Prints the current board layout with column labels below
     def print(self):
         i = self.rows - 1
         while i >= 0:
