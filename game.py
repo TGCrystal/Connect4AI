@@ -72,7 +72,7 @@ class board:
         space = 1
         i = row - 1
         j = column + 1
-        while i >= 0 and j < self.comumns and self.board[i][j] == piece:
+        while i >= 0 and j < self.columns and self.board[i][j] == piece:
             space += 1
             i -= 1
             j += 1
