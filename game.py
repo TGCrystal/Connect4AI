@@ -13,15 +13,26 @@ class board:
             self.board.append(column)
             i += 1
 
+    def isValidColumn(self, j):
+        if not (j.isdigit() or isinstance(j, int)):
+            print("Please enter a number between 0 and ", self.columns)
+            return False
+        j = int(j)
+        if j < 0 or j >= self.columns:
+            print("Please enter a number between 0 and ", self.columns)
+            return False
+        if board[self.rows-1][j] != '0':
+            print("This column is already full")
+            return False
+
+        return True
+
     def isFull(self):
-        i = 0
-        while i < self.rows:
-            j = 0
-            while j < self.columns:
-                if self.board[i][j] == '0':
-                    return False
-                j += 1
-            i += 1
+        j = 0
+        while j < self.columns:
+            if self.board[self.rows - 1][j] == '0':
+                return False
+            j += 1
         return True
 
     def gameWon(self, piece, row, column):
@@ -87,13 +98,14 @@ class board:
 
         return False
 
+    # Call isValidColumn before attempting to place
     def addPiece(self, piece, column):
-        if self.board[self.rows - 1][column] != '0':
-            return "Error"
         i = self.rows - 1
         while i >= 0 and self.board[i][column] == '0':
             i -= 1
         i += 1
+        if i == self.rows:
+            return "Error"
         self.board[i][column] = piece
         return self.gameWon(piece, i, column)
 
