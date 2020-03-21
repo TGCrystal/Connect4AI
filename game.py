@@ -3,6 +3,7 @@ class board:
         self.columns = 7
         self.rows = 6
         self.board = []
+        self.winner = None
         i = 0
         while i < self.rows:
             j = 0
@@ -22,7 +23,7 @@ class board:
         if j < 0 or j >= self.columns:
             print("Please enter a number between 0 and ", self.columns)
             return False
-        if board[self.rows-1][j] != '0':
+        if self.board[self.rows-1][j] != '0':
             print("This column is already full")
             return False
         return True
@@ -51,7 +52,7 @@ class board:
         space = 1
         j = column - 1
         while j >= 0 and self.board[row][j] == piece:
-            column += 1
+            space += 1
             j -= 1
         j = column + 1
         while j < self.columns and self.board[row][j] == piece:
@@ -99,12 +100,16 @@ class board:
     # Call isValidColumn before attempting to place
     # Adds piece to top of given column, column index starts at 0
     def addPiece(self, piece, column):
+        column = int(column)
         i = self.rows - 1
         while i >= 0 and self.board[i][column] == '0':
             i -= 1
         i += 1
         self.board[i][column] = piece
-        return self.gameWon(piece, i, column)
+        if self.gameWon(piece, i, column):
+            self.winner = piece
+            return True
+        return False
 
     # Prints the current board layout with column labels below
     def print(self):
