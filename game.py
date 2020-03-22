@@ -16,7 +16,7 @@ class board:
 
     # Returns True if j is a column that a piece can be placed in, False otherwise w/ reason printed
     def isValidColumn(self, j):
-        if not (j.isdigit() or isinstance(j, int)):
+        if not (isinstance(j, int) or j.isdigit()):
             print("Input is not an integer or convertible to an integer")
             return False
         j = int(j)
@@ -27,6 +27,16 @@ class board:
             print("This column is already full")
             return False
         return True
+
+    # Returns a list of valid columns
+    def getValidMoves(self):
+        moves = []
+        i = 0
+        while i < self.columns:
+            if self.isValidColumn(i):
+                moves.append(i)
+            i += 1
+        return moves
 
     # Returns True if the board is full, False otherwise, assumes pieces are added correctly
     def isFull(self):
@@ -108,8 +118,13 @@ class board:
         self.board[i][column] = piece
         if self.gameWon(piece, i, column):
             self.winner = piece
-            return True
-        return False
+            return True, i
+        return False, i
+
+    # Removes piece from given location
+    def resetPosition(self, row, column):
+        self.board[row][column] = '0'
+        self.winner = None
 
     # Prints the current board layout with column labels below
     def print(self):
