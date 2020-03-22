@@ -119,9 +119,12 @@ def main():
             break
         blockPrint()
         computerAction = maxAI(gameBoard, aiPiece, 7)[1]
-        gameBoard.addPiece(aiPiece, computerAction)
+        if gameBoard.addPiece(aiPiece, computerAction):
+            print("You lose!")
         enablePrint()
     gameBoard.print()
+    if gameBoard.isFull():
+        print("Draw!")
 
 
 if __name__ == "__main__":
